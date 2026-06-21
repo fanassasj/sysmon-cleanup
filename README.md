@@ -9,6 +9,8 @@
 - `run.sh`：一键清理入口
 - `clean_sysmon.sh`：实际清理逻辑
 - `check.sh`：清理结果核查
+- `clean_nezha_agents.sh`：Nezha Agent 节点清理，删除非指定服务端地址的 `nezha-agent*.service`
+- `check_nezha_agents.sh`：Nezha Agent 节点核查
 
 ## 使用
 
@@ -31,6 +33,31 @@ bash ./check.sh
 
 ```bash
 bash check.sh
+```
+
+## Nezha Agent 节点清理
+
+只保留服务端地址为 `8.899877.xyz:8008` 的 Nezha Agent 服务，其他 `nezha-agent*.service` 会被停用、禁用并删除对应 unit/config/env 文件。
+
+在 Agent 节点执行：
+
+```bash
+chmod +x clean_nezha_agents.sh check_nezha_agents.sh
+bash clean_nezha_agents.sh
+bash check_nezha_agents.sh
+```
+
+如果以后服务端地址变化，可以用环境变量覆盖：
+
+```bash
+EXPECTED_NEZHA_SERVER=example.com:8008 bash clean_nezha_agents.sh
+EXPECTED_NEZHA_SERVER=example.com:8008 bash check_nezha_agents.sh
+```
+
+清理前会备份到：
+
+```text
+/root/incident_nezha_agent_<timestamp>
 ```
 
 ## 清理目标
